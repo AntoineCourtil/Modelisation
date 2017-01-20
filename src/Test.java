@@ -34,6 +34,9 @@ class Test {
     public static void main(String[] args) {
         //testGraph();
 
-        SeamCarving.writepgm(SeamCarving.readpgm("ex3.pgm"), "test.pgm");
+        //SeamCarving.writepgm(SeamCarving.readpgm("ex3.pgm"), "test.pgm");
+
+        Graph g = SeamCarving.tograph(SeamCarving.interest(SeamCarving.readpgm("test.pgm")));
+        g.writeFile("test.dot");
     }
 }

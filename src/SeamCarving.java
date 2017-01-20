@@ -82,7 +82,7 @@ public class SeamCarving {
         GraphArrayList g = new GraphArrayList((height * width) + 2); //+2 pour le depart et l'arrive
 
         //pour eviter que deux sommets aient la meme valeur, comme itr[16][64] et itr[64][16],
-        //sa valeur sera donc : line * height + col
+        //sa valeur sera donc : line * width + col
 
         for (int line = 0; line < height; line++) {
             for (int col = 0; col < width; col++) {
@@ -90,8 +90,8 @@ public class SeamCarving {
                 //sommet du bas au centre
                 if ((line + 1) < height) {
                     g.addEdge(new Edge(
-                            (line * height + col),
-                            ((line + 1) * height + col),
+                            (line * width + col),
+                            ((line + 1) * width + col),
                             itr[line][col]
                     ));
                 }
@@ -99,8 +99,8 @@ public class SeamCarving {
                 //sommet du bas à droite
                 if ((line + 1) < height && (col + 1) < width) {
                     g.addEdge(new Edge(
-                            (line * height + col),
-                            ((line + 1) * height + (col + 1)),
+                            (line * width + col),
+                            ((line + 1) * width + (col + 1)),
                             itr[line][col]
                     ));
                 }
@@ -108,8 +108,8 @@ public class SeamCarving {
                 //sommet du bas à gauche
                 if ((line + 1) < height && (col - 1) >= 0) {
                     g.addEdge(new Edge(
-                            (line * height + col),
-                            ((line + 1) * height + (col - 1)),
+                            (line * width + col),
+                            ((line + 1) * width + (col - 1)),
                             itr[line][col]
                     ));
                 }
@@ -120,7 +120,7 @@ public class SeamCarving {
         //lien entre la première ligne et le depart du graphe
         for (int i = 0; i < width; i++) {
             g.addEdge(new Edge(
-                    -1, //id du depart vaut -1 pour le differencier
+                    height * width, //id du depart vaut -1 pour le differencier
                     i,
                     0 //poid à 0
             ));
@@ -130,7 +130,7 @@ public class SeamCarving {
         for (int i = 0; i < width; i++) {
             g.addEdge(new Edge(
                     (height - 1) * width + i,
-                    height * height + width, //aucun sommet ne peut avoir cette valeur, valeur maximale
+                    height * width + 1 , //aucun sommet ne peut avoir cette valeur, valeur maximale
                     itr[height - 1][i]
             ));
         }
