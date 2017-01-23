@@ -26,5 +26,18 @@ public interface Graph
 	    {
 	    }						
     }
+
+    public default String graphToString(){
+		int u;
+		int n = vertices();
+		StringBuilder sb = new StringBuilder();
+		for (u = 0; u < n;  u++) {
+			for (Edge e : next(u)) {
+				sb.append(e.from + "->" + e.to + "[label=\"" + e.cost + "\"];\n");
+			}
+		}
+
+		return sb.toString();
+    }
   
 }

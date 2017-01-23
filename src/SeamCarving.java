@@ -120,7 +120,7 @@ public class SeamCarving {
         //lien entre la première ligne et le depart du graphe
         for (int i = 0; i < width; i++) {
             g.addEdge(new Edge(
-                    height * width, //id du depart vaut -1 pour le differencier
+                    height * width, //id du depart height * width car personne n'a cette valeur
                     i,
                     0 //poid à 0
             ));
@@ -130,12 +130,45 @@ public class SeamCarving {
         for (int i = 0; i < width; i++) {
             g.addEdge(new Edge(
                     (height - 1) * width + i,
-                    height * width + 1 , //aucun sommet ne peut avoir cette valeur, valeur maximale
+                    height * width + 1, //id du depart + 1
                     itr[height - 1][i]
             ));
         }
 
         return g;
+    }
+
+    public static void dfs(Graph g, int u, boolean[] visite, ArrayList<Integer> al) {
+
+        visite[u] = true;
+        for (Edge e : g.next(u)) {
+            if (!visite[e.to]) {
+                dfs(g, e.to, visite, al);
+            }
+        }
+
+        al.add(u);
+        //System.out.println("Je visite " + u);
+    }
+
+    public static ArrayList<Integer> tritopo(Graph g) {
+
+        ArrayList<Integer> al = new ArrayList<Integer>();
+
+        int n = g.vertices();
+        //System.out.println("Vertices = "+n);
+        boolean[] visite = new boolean[n];
+
+        dfs(g, n-2, visite, al);
+
+        //Collections.reverse(al);
+
+        System.out.println("Tri topo : ");
+        for (int x : al) {
+            System.out.println("    " + x);
+        }
+
+        return al;
     }
 
 

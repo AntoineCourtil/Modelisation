@@ -105,9 +105,14 @@ class DFS
 	g.addEdge(new Edge(4, 3, 1));
 	g.addEdge(new Edge(3, 5, 1));
 	g.addEdge(new Edge(5, 1, 1));
+
+	System.out.println("\n\nBotched DFS1\n");
 	botched_dfs1(g, 0);
+	System.out.println("\n\nBotched DFS2\n");
 	botched_dfs2(g, 0);
+	System.out.println("\n\nBotched DFS3\n");
 	botched_dfs3(g, 0);
+	System.out.println("\n\nBotched DFS4\n");
 	botched_dfs4(g, 0);
 
 

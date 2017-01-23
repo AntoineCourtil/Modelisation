@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 class Test {
     static boolean visite[];
 
@@ -38,5 +40,11 @@ class Test {
 
         Graph g = SeamCarving.tograph(SeamCarving.interest(SeamCarving.readpgm("test.pgm")));
         g.writeFile("test.dot");
+
+        System.out.println(g.graphToString());
+
+        ArrayList<Integer> tritopo = SeamCarving.tritopo(g);
+
+
     }
 }
