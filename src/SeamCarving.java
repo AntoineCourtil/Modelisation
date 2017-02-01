@@ -161,7 +161,7 @@ public class SeamCarving {
 
         dfs(g, n-2, visite, al);
 
-        //Collections.reverse(al);
+        Collections.reverse(al);
 
         System.out.println("Tri topo : ");
         for (int x : al) {
@@ -177,6 +177,7 @@ public class SeamCarving {
             InputStream f = ClassLoader.getSystemClassLoader().getResourceAsStream(fn);
             BufferedReader d = new BufferedReader(new InputStreamReader(f));
             String magic = d.readLine();
+
             String line = d.readLine();
             while (line.startsWith("#")) {
                 line = d.readLine();
