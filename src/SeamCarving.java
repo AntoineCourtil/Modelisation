@@ -163,12 +163,95 @@ public class SeamCarving {
 
         Collections.reverse(al);
 
-        System.out.println("Tri topo : ");
+        /*System.out.println("Tri topo : ");
         for (int x : al) {
             System.out.println("    " + x);
-        }
+        }*/
 
         return al;
+    }
+
+    public static ArrayList<Integer> Bellman(Graph g, int s, int t, ArrayList<Integer> order) {
+
+        //initialisation du tableau de distances avec une valeur maximale
+        Integer[] distances = new Integer[g.vertices()];
+        Arrays.fill(distances, Integer.MAX_VALUE/2);
+        //et sa premiere case a 0
+        distances[order.get(0)] = 0;
+
+        //initialisation du tableau des parents avec -1 car aucun point n'a cette valeur
+        Integer[] parents = new Integer[g.vertices()];
+        Arrays.fill(parents, -1);
+
+        //Integer point;
+
+
+
+        //on parcourt chaque point du tri topo
+        for (Integer point : order){
+
+            //on parcourt chaque arete de ce point
+            for (Edge e : g.prev(point)) {
+
+                int a = distances[e.getFrom()] + e.getCost();
+
+                //si cette nouvelle valeur est plus petite que celle deja enregistree
+                //on met a jour le tableau et on l'ajoute en tant que parent
+                if ( (distances[e.getFrom()] + e.getCost()) < distances[point]) {
+                    distances[point] = distances[e.getFrom()] + e.getCost();
+                    parents[point] = e.getFrom();
+                }
+            }
+        }
+
+        ArrayList<Integer> result = new ArrayList<>(g.vertices());
+
+        //initialisation du dernier point du CCM
+        Integer parcours = parents[g.vertices() - 1];
+
+        //si le point a parcrourir = -1, alors fin du CCM, sinon on ajoute ce point a la liste
+        while (parcours != -1) {
+            result.add(parcours);
+            parcours = parents[parcours];
+        }
+
+        result.remove(result.size()-1);//On enleve le dernier point factice
+
+
+        Collections.reverse(result);
+
+        return result;
+    }
+
+    public static int[][] deleteColumn(int[][] picture, ArrayList<Integer> list){
+        //une colonne en moins pour la nouvelle image
+        int[][] result = new int[picture.length][picture[0].length - 1];
+        int height = picture.length;
+        int width = picture[0].length;
+
+        // On itère sur les deux tableaux en même temps.
+        // Pour itérer sur les lignes, on utilise deux variables différentes
+        // Si le pixel courant est dans le chemin le plus court, on incrémente une seule des deux variables
+        for (int line = 0; line < height; line++) {
+            boolean finded = false;
+            for (int col = 0; col < width; col++) {
+                if (!list.contains(line*width + col)) {
+                    if(finded) {
+                        result[line][col-1] = picture[line][col];
+                    }
+                    else {
+                        result[line][col] = picture[line][col];
+                    }
+
+                }
+                else{
+                    finded = true;
+                    //System.out.println("FIND");
+                }
+            }
+        }
+
+        return result;
     }
 
 

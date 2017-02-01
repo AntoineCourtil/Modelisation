@@ -33,17 +33,35 @@ class Test {
         dfs(g, 3);
     }
 
+    public static void reduceWidth(String pictureName, int columns){
+        int[][] picture = SeamCarving.readpgm(pictureName);
+        int height = picture.length;
+        int width = picture[0].length;
+
+        int firstCase = height * width;
+        int lastCase = firstCase+1;
+
+        for (int i = 0; i < columns; i++) {
+            int[][] pix_interest = SeamCarving.interest(picture);
+            Graph g = SeamCarving.tograph(pix_interest);
+            ArrayList<Integer> tritopo = SeamCarving.tritopo(g);
+
+            ArrayList<Integer> ccm = SeamCarving.Bellman(g, firstCase, lastCase, tritopo);
+            picture = SeamCarving.deleteColumn(picture, ccm);
+            if (i%50 == 0){
+                System.out.println("Reduce in process...");
+            }
+        }
+
+        SeamCarving.writepgm(picture, "res/"+pictureName+".reduceBy"+columns+".pgm");
+
+        System.out.println("\n  Reduce by "+columns+" on "+pictureName+ "has finished ! \\o/");
+    }
+
     public static void main(String[] args) {
         //testGraph();
 
-        //SeamCarving.writepgm(SeamCarving.readpgm("ex3.pgm"), "test.pgm");
-
-        Graph g = SeamCarving.tograph(SeamCarving.interest(SeamCarving.readpgm("test.pgm")));
-        g.writeFile("test.dot");
-
-        System.out.println(g.graphToString());
-
-        ArrayList<Integer> tritopo = SeamCarving.tritopo(g);
+        reduceWidth("paris.pgm",200);
 
 
     }
