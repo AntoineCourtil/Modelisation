@@ -148,7 +148,7 @@ public class SeamCarving {
         }
 
         al.add(u);
-        //System.out.println("Je visite " + u);
+        System.out.println("Je visite " + u);
     }
 
     public static ArrayList<Integer> tritopo(Graph g) {

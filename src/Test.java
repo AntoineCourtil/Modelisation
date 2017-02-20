@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 class Test {
+
     static boolean visite[];
 
     public static void dfs(Graph g, int u) {
@@ -28,18 +29,18 @@ class Test {
 
         g.addEdge(new Edge(13, 17, 1337));
         g.writeFile("test.dot");
-        // dfs à partir du sommet 3
+
         visite = new boolean[n * n + 2];
         dfs(g, 3);
     }
 
-    public static void reduceWidth(String pictureName, int columns){
+    public static void reduceWidth(String pictureName, int columns) {
         int[][] picture = SeamCarving.readpgm(pictureName);
         int height = picture.length;
         int width = picture[0].length;
 
         int firstCase = height * width;
-        int lastCase = firstCase+1;
+        int lastCase = firstCase + 1;
 
         for (int i = 0; i < columns; i++) {
             int[][] pix_interest = SeamCarving.interest(picture);
@@ -48,21 +49,40 @@ class Test {
 
             ArrayList<Integer> ccm = SeamCarving.Bellman(g, firstCase, lastCase, tritopo);
             picture = SeamCarving.deleteColumn(picture, ccm);
-            if (i%50 == 0){
+            if (i % 50 == 0) {
                 System.out.println("Reduce in process...");
             }
         }
 
-        SeamCarving.writepgm(picture, "res/"+pictureName+".reduceBy"+columns+".pgm");
+        SeamCarving.writepgm(picture, "" + pictureName + ".reduceBy" + columns + ".pgm");
 
-        System.out.println("\n  Reduce by "+columns+" on "+pictureName+ "has finished ! \\o/");
+        System.out.println("\n  Reduce by " + columns + " on " + pictureName + " has finished ! \\o/");
     }
 
     public static void main(String[] args) {
-        //testGraph();
+        testGraph();
 
-        reduceWidth("paris.pgm",200);
+        //reduceWidth("boat.pgm",300);
 
+        /*if (args.length < 2) {
+            System.out.println("usage : java -jar modelisation.jar <pictureName> <reduceyBy>");
+
+            System.out.println("List of picture :");
+            System.out.println("  - ex1.pgm");
+            System.out.println("  - ex2.pgm");
+            System.out.println("  - ex3.pgm");
+            System.out.println("  - test.pgm");
+            System.out.println("  - paris.pgm");
+            System.out.println("  - bateau.pgm");
+            System.exit(0);
+        }
+
+        if (args[0].equals("ex1.pgm") || args[0].equals("ex2.pgm") || args[0].equals("ex3.pgm") || args[0].equals("test.pgm") || args[0].equals("paris.pgm") || args[0].equals("bateau.pgm")) {
+            reduceWidth(args[0], Integer.parseInt(args[1]));
+        }
+        else{
+            System.err.println("Wrong inputs");
+        }*/
 
     }
 }
