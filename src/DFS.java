@@ -141,24 +141,6 @@ class DFS {
         System.out.println("Capacité : " + stack.capacity());
     }
 
-    public static void iterativeDFS(Graph g, int s){
-
-        Iterator<Integer> iterator = new Iterator<Integer>() {
-            @Override
-            public boolean hasNext() {
-                return false;
-            }
-
-            @Override
-            public Integer next() {
-                return null;
-            }
-        };
-
-
-        Stack<Integer> u = new Stack<Integer>();
-    }
-
 
     public static void testGraph() {
         int n = 5;
@@ -192,7 +174,6 @@ class DFS {
         botched_dfs4(g, 0);
 
         System.out.println("\n\nGood Iterative DFS\n");
-        iterativeDFS(g, 0);
 
 
     }

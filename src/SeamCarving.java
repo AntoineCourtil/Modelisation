@@ -159,7 +159,7 @@ public class SeamCarving {
         //System.out.println("Vertices = "+n);
         boolean[] visite = new boolean[n];
 
-        dfs(g, n-2, visite, al);
+        dfs(g, n - 2, visite, al);
 
         Collections.reverse(al);
 
@@ -171,11 +171,75 @@ public class SeamCarving {
         return al;
     }
 
+    public static ArrayList<Integer> iterativeTritopo(Graph g, int s) {
+
+        ArrayList<Integer> alSuffixe = new ArrayList<>();
+        Iterator<Edge> iteratorEdge;
+
+        boolean visited[] = new boolean[g.vertices()];
+
+        Stack<Integer> stackSommet = new Stack<Integer>(); //pile de sommet
+        Stack<Iterator<Edge>> stackIt = new Stack<Iterator<Edge>>(); //pile d'iterateur de voisins
+
+        //ajout dans les piles de s et next(s)
+        stackSommet.push(s);
+        stackIt.push(g.next(s).iterator());
+
+        int sommet;
+
+
+        while (!stackSommet.empty()) {
+
+            //recupere la paire sommet, it
+            sommet = stackSommet.peek();
+            iteratorEdge = stackIt.peek();
+
+            //si voisin de u non teste
+            if (iteratorEdge.hasNext()) {
+                int voisin = iteratorEdge.next().to;
+
+                //si voisin non visite
+                if (!visited[voisin]) {
+
+                    visited[voisin] = true; //v ajoute au sommet visite
+
+                    //ajoute la paire voisin, next(voisin) a la pile
+                    stackSommet.push(voisin);
+                    stackIt.push(g.next(voisin).iterator());
+                }
+
+                //sinon (tous les voisins visites) : retour au de debut de boucle
+            }
+
+
+
+            else {
+
+                //sinon on retire la paire sommet, it des piles
+                stackSommet.pop();
+                stackIt.pop();
+
+                //ajoute le sommet a la liste suffixe
+                alSuffixe.add(sommet);
+            }
+        }
+
+        // On prend l'inverse de l'orde suffixe
+        Collections.reverse(alSuffixe);
+
+        /*System.out.println("Tri topo : ");
+        for (int x : al) {
+            System.out.println("    " + x);
+        }*/
+
+        return alSuffixe;
+    }
+
     public static ArrayList<Integer> Bellman(Graph g, int s, int t, ArrayList<Integer> order) {
 
         //initialisation du tableau de distances avec une valeur maximale
         Integer[] distances = new Integer[g.vertices()];
-        Arrays.fill(distances, Integer.MAX_VALUE/2);
+        Arrays.fill(distances, Integer.MAX_VALUE / 2);
         //et sa premiere case a 0
         distances[order.get(0)] = 0;
 
@@ -186,9 +250,8 @@ public class SeamCarving {
         //Integer point;
 
 
-
         //on parcourt chaque point du tri topo
-        for (Integer point : order){
+        for (Integer point : order) {
 
             //on parcourt chaque arete de ce point
             for (Edge e : g.prev(point)) {
@@ -197,7 +260,7 @@ public class SeamCarving {
 
                 //si cette nouvelle valeur est plus petite que celle deja enregistree
                 //on met a jour le tableau et on l'ajoute en tant que parent
-                if ( (distances[e.getFrom()] + e.getCost()) < distances[point]) {
+                if ((distances[e.getFrom()] + e.getCost()) < distances[point]) {
                     distances[point] = distances[e.getFrom()] + e.getCost();
                     parents[point] = e.getFrom();
                 }
@@ -215,7 +278,7 @@ public class SeamCarving {
             parcours = parents[parcours];
         }
 
-        result.remove(result.size()-1);//On enleve le dernier point factice
+        result.remove(result.size() - 1);//On enleve le dernier point factice
 
 
         Collections.reverse(result);
@@ -223,7 +286,7 @@ public class SeamCarving {
         return result;
     }
 
-    public static int[][] deleteColumn(int[][] picture, ArrayList<Integer> list){
+    public static int[][] deleteColumn(int[][] picture, ArrayList<Integer> list) {
         //une colonne en moins pour la nouvelle image
         int[][] result = new int[picture.length][picture[0].length - 1];
         int height = picture.length;
@@ -235,16 +298,14 @@ public class SeamCarving {
         for (int line = 0; line < height; line++) {
             boolean finded = false;
             for (int col = 0; col < width; col++) {
-                if (!list.contains(line*width + col)) {
-                    if(finded) {
-                        result[line][col-1] = picture[line][col];
-                    }
-                    else {
+                if (!list.contains(line * width + col)) {
+                    if (finded) {
+                        result[line][col - 1] = picture[line][col];
+                    } else {
                         result[line][col] = picture[line][col];
                     }
 
-                }
-                else{
+                } else {
                     finded = true;
                     //System.out.println("FIND");
                 }

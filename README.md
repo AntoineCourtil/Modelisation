@@ -10,9 +10,9 @@
 #Utilisation :
 
 Exécuter le .jar de la manière suivante :
-	java -jar modelisation.jar <pictureName> <reduceyBy>
+	java -jar modelisation.jar \<pictureName> \<reduceyBy>
 
-Liste des <pictureName> :
+Liste des \<pictureName> :
   - ex1.pgm
   - ex2.pgm
   - ex3.pgm
@@ -20,7 +20,7 @@ Liste des <pictureName> :
   - paris.pgm
   - bateau.pgm
 
-pour le <reduceBy> :
+pour le \<reduceBy> :
   indiquer le nombre de pixel àreduire en largeur, par exemple 30.
 
 
