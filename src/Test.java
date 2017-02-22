@@ -43,16 +43,30 @@ class Test {
         int lastCase = firstCase + 1;
 
         for (int i = 0; i < columns; i++) {
-            int[][] pix_interest = SeamCarving.interest(picture);
-            Graph g = SeamCarving.tograph(pix_interest);
-            ArrayList<Integer> tritopo = SeamCarving.tritopo(g);
 
-            ArrayList<Integer> ccm = SeamCarving.Bellman(g, firstCase, lastCase, tritopo);
+
+            height = picture.length;
+            width = picture[0].length;
+            firstCase = height * width;
+            lastCase = firstCase + 1;
+
+            int[][] pix_interest = SeamCarving.interest(picture);
+            //Graph g = SeamCarving.tograph(pix_interest);
+
+            GraphImplicit g2 = new GraphImplicit(pix_interest, pix_interest[0].length, pix_interest.length);
+
+            //g.writeFile("test.dot");
+            //g2.writeFile("testXX"+i+".dot");
+
+            ArrayList<Integer> tritopo = SeamCarving.iterativeTritopo(g2, width*height);
+
+            ArrayList<Integer> ccm = SeamCarving.Bellman(g2, firstCase, lastCase, tritopo);
             picture = SeamCarving.deleteColumn(picture, ccm);
             if (i % 50 == 0) {
                 System.out.println("Reduce in process...");
             }
         }
+
 
         SeamCarving.writepgm(picture, "" + pictureName + ".reduceBy" + columns + ".pgm");
 
@@ -60,9 +74,9 @@ class Test {
     }
 
     public static void main(String[] args) {
-        testGraph();
+        //testGraph();
 
-        //reduceWidth("boat.pgm",300);
+        reduceWidth("bateau.pgm",350);
 
         /*if (args.length < 2) {
             System.out.println("usage : java -jar modelisation.jar <pictureName> <reduceyBy>");
