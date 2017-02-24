@@ -56,7 +56,7 @@ class Test {
             GraphImplicit g2 = new GraphImplicit(pix_interest, pix_interest[0].length, pix_interest.length);
 
             //g.writeFile("test.dot");
-            //g2.writeFile("testXX"+i+".dot");
+            g2.writeFile("testWidth_"+i+".dot");
 
             ArrayList<Integer> tritopo = SeamCarving.iterativeTritopo(g2, width*height);
 
@@ -68,15 +68,57 @@ class Test {
         }
 
 
-        SeamCarving.writepgm(picture, "" + pictureName + ".reduceBy" + columns + ".pgm");
+        SeamCarving.writepgm(picture, "" + pictureName + ".reduceWidthBy" + columns + ".pgm");
 
-        System.out.println("\n  Reduce by " + columns + " on " + pictureName + " has finished ! \\o/");
+        System.out.println("\n  Reduce Width by " + columns + " on " + pictureName + " has finished ! \\o/");
+    }
+
+
+
+    public static void reduceHeight(String pictureName, int lines) {
+        int[][] picture = SeamCarving.readpgm(pictureName);
+        int height = picture.length;
+        int width = picture[0].length;
+
+        int firstCase = height * width;
+        int lastCase = firstCase + 1;
+
+        for (int i = 0; i < lines; i++) {
+
+
+            height = picture.length;
+            width = picture[0].length;
+            firstCase = height * width;
+            lastCase = firstCase + 1;
+
+            int[][] pix_interest = SeamCarving.interestWidth(picture);
+            //Graph g = SeamCarving.tograph(pix_interest);
+
+            GraphImplicitHeight g3 = new GraphImplicitHeight(pix_interest, pix_interest[0].length, pix_interest.length);
+
+            //g.writeFile("test.dot");
+            //g3.writeFile("testHeight_"+i+".dot");
+
+            ArrayList<Integer> tritopo = SeamCarving.iterativeTritopo(g3, width*height);
+
+            ArrayList<Integer> ccm = SeamCarving.Bellman(g3, firstCase, lastCase, tritopo);
+            picture = SeamCarving.deleteLine(picture, ccm);
+            if (i % 50 == 0) {
+                System.out.println("Reduce in process...");
+            }
+        }
+
+
+        SeamCarving.writepgm(picture, "" + pictureName + ".reduceHeightBy" + lines + ".pgm");
+
+        System.out.println("\n  Reduce Height by " + lines + " on " + pictureName + " has finished ! \\o/");
     }
 
     public static void main(String[] args) {
         //testGraph();
 
-        reduceWidth("bateau.pgm",350);
+        //reduceWidth("test.pgm",1);
+        reduceHeight("bateau.pgm",100);
 
         /*if (args.length < 2) {
             System.out.println("usage : java -jar modelisation.jar <pictureName> <reduceyBy>");

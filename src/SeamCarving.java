@@ -73,6 +73,40 @@ public class SeamCarving {
         return res;
     }
 
+    public static int[][] interestWidth(int[][] image) {
+        int height = image.length;
+        int width = image[0].length;
+        int[][] res = new int[height][width];
+        int val;
+
+        for (int line = 0; line < height; line++) {
+            for (int col = 0; col < width; col++) {
+
+
+                //deux voisins => difference avec la moyenne des deux
+                if ((line - 1) >= 0 && (line + 1) < height) {
+                    int moy = (image[line-1][col] + image[line+1][col]) / 2;
+
+                    val = Math.abs(image[line][col] - moy);
+                }
+
+                //pas de voisin en bas => difference avec celui du haut
+                else if ((line + 1) >= height) {
+                    val = Math.abs(image[line][col] - image[line-1][col]);
+                }
+
+                //pas de voisin en haut => difference avec celui du bas
+                else {
+                    val = Math.abs(image[line][col] - image[line+1][col]);
+                }
+
+                res[line][col] = val;
+            }
+        }
+
+        return res;
+    }
+
 
     public static Graph tograph(int[][] itr) {
         int height = itr.length;
@@ -209,11 +243,7 @@ public class SeamCarving {
                 }
 
                 //sinon (tous les voisins visites) : retour au de debut de boucle
-            }
-
-
-
-            else {
+            } else {
 
                 //sinon on retire la paire sommet, it des piles
                 stackSommet.pop();
@@ -308,6 +338,35 @@ public class SeamCarving {
                 } else {
                     finded = true;
                     //System.out.println("FIND");
+                }
+            }
+        }
+
+        return result;
+    }
+
+
+    public static int[][] deleteLine(int[][] picture, ArrayList<Integer> list) {
+        //une ligne en moins pour la nouvelle image
+        int[][] result = new int[picture.length - 1][picture[0].length];
+        int height = picture.length;
+        int width = picture[0].length;
+
+        // On itère sur les deux tableaux en même temps.
+        // Pour itérer sur les lignes, on utilise deux variables différentes
+        // Si le pixel courant est dans le chemin le plus court, on incrémente une seule des deux variables
+        for (int col = 0; col < width; col++) {
+            boolean finded = false;
+            for (int line = 0; line < height; line++) {
+                if (!list.contains(line * width + col)) {
+                    if (finded) {
+                        result[line-1][col] = picture[line][col];
+                    } else {
+                        result[line][col] = picture[line][col];
+                    }
+
+                } else {
+                    finded = true;
                 }
             }
         }
