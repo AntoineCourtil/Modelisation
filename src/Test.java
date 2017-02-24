@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import static jdk.nashorn.internal.objects.NativeArray.reduce;
+
 class Test {
 
     static boolean visite[];
@@ -34,7 +36,7 @@ class Test {
         dfs(g, 3);
     }
 
-    public static void reduceWidth(String pictureName, int columns) {
+    public static void reduceWidth(String pictureName, int columns, boolean continu) {
         int[][] picture = SeamCarving.readpgm(pictureName);
         int height = picture.length;
         int width = picture[0].length;
@@ -56,26 +58,27 @@ class Test {
             GraphImplicit g2 = new GraphImplicit(pix_interest, pix_interest[0].length, pix_interest.length);
 
             //g.writeFile("test.dot");
-            g2.writeFile("testWidth_"+i+".dot");
+            //g2.writeFile("testWidth_"+i+".dot");
 
-            ArrayList<Integer> tritopo = SeamCarving.iterativeTritopo(g2, width*height);
+            ArrayList<Integer> tritopo = SeamCarving.iterativeTritopo(g2, width * height);
 
             ArrayList<Integer> ccm = SeamCarving.Bellman(g2, firstCase, lastCase, tritopo);
             picture = SeamCarving.deleteColumn(picture, ccm);
-            if (i % 50 == 0) {
+            if (i % 50 == 0 && !continu) {
                 System.out.println("Reduce in process...");
             }
         }
 
-
-        SeamCarving.writepgm(picture, "" + pictureName + ".reduceWidthBy" + columns + ".pgm");
-
-        System.out.println("\n  Reduce Width by " + columns + " on " + pictureName + " has finished ! \\o/");
+        if (!continu) {
+            SeamCarving.writepgm(picture, "" + pictureName + ".reduceWidthBy" + columns + ".pgm");
+            System.out.println("\n  Reduce Width by " + columns + " on " + pictureName + " has finished ! \\o/");
+        } else {
+            SeamCarving.writepgm(picture, "res/" + pictureName + ".reducing.pgm");
+        }
     }
 
 
-
-    public static void reduceHeight(String pictureName, int lines) {
+    public static void reduceHeight(String pictureName, int lines, boolean continu) {
         int[][] picture = SeamCarving.readpgm(pictureName);
         int height = picture.length;
         int width = picture[0].length;
@@ -99,26 +102,57 @@ class Test {
             //g.writeFile("test.dot");
             //g3.writeFile("testHeight_"+i+".dot");
 
-            ArrayList<Integer> tritopo = SeamCarving.iterativeTritopo(g3, width*height);
+            ArrayList<Integer> tritopo = SeamCarving.iterativeTritopo(g3, width * height);
 
             ArrayList<Integer> ccm = SeamCarving.Bellman(g3, firstCase, lastCase, tritopo);
             picture = SeamCarving.deleteLine(picture, ccm);
-            if (i % 50 == 0) {
+            if (i % 50 == 0 && !continu) {
                 System.out.println("Reduce in process...");
             }
         }
 
 
-        SeamCarving.writepgm(picture, "" + pictureName + ".reduceHeightBy" + lines + ".pgm");
+        if (!continu) {
+            SeamCarving.writepgm(picture, "" + pictureName + ".reduceHeightBy" + lines + ".pgm");
 
-        System.out.println("\n  Reduce Height by " + lines + " on " + pictureName + " has finished ! \\o/");
+            System.out.println("\n  Reduce Height by " + lines + " on " + pictureName + " has finished ! \\o/");
+        } else {
+            SeamCarving.writepgm(picture, "res/" + pictureName + ".reducing.pgm");
+        }
+    }
+
+    public static void reduce(String pictureName, int pixels) {
+
+        String pictureNameReducing = pictureName;
+
+        for (int pixel = 0; pixel < pixels; pixel++) {
+            System.out.println(pixel);
+            System.out.println(pictureNameReducing);
+
+            reduceWidth(pictureNameReducing, 1, true);
+
+            if (pictureNameReducing.equals(pictureName)) {
+                pictureNameReducing = pictureName + ".reducing.pgm";
+            }
+
+            reduceHeight(pictureName, 1, true);
+
+            if (pixel % 50 == 0) {
+                System.out.println("Reduce in process...");
+            }
+        }
+
+        //SeamCarving.writepgm(picture, "" + pictureName + ".reduceHeightBy" + lines + ".pgm");
+
+        System.out.println("\n  Reduce by " + pixels + " on " + pictureName + " has finished ! \\o/");
     }
 
     public static void main(String[] args) {
         //testGraph();
 
-        //reduceWidth("test.pgm",1);
-        reduceHeight("bateau.pgm",100);
+        reduceWidth("bateau.pgm",300, false);
+        reduceHeight("bateau.pgm",200, false);
+        //reduce("bateau.pgm", 50);
 
         /*if (args.length < 2) {
             System.out.println("usage : java -jar modelisation.jar <pictureName> <reduceyBy>");
