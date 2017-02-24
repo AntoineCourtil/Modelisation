@@ -121,7 +121,7 @@ class DFS {
             boolean end = true;
         /* (a) Soit u le sommet en haut de la pile */
         /* (b) Si u a un voisin non visité, alors */
-	    /*     (c) on le visite et on l'ajoute sur la pile */
+        /*     (c) on le visite et on l'ajoute sur la pile */
 	    /* Sinon */
 	    /*     (d) on enlève u de la pile */
 	   

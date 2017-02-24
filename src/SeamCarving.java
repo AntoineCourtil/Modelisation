@@ -85,19 +85,19 @@ public class SeamCarving {
 
                 //deux voisins => difference avec la moyenne des deux
                 if ((line - 1) >= 0 && (line + 1) < height) {
-                    int moy = (image[line-1][col] + image[line+1][col]) / 2;
+                    int moy = (image[line - 1][col] + image[line + 1][col]) / 2;
 
                     val = Math.abs(image[line][col] - moy);
                 }
 
                 //pas de voisin en bas => difference avec celui du haut
                 else if ((line + 1) >= height) {
-                    val = Math.abs(image[line][col] - image[line-1][col]);
+                    val = Math.abs(image[line][col] - image[line - 1][col]);
                 }
 
                 //pas de voisin en haut => difference avec celui du bas
                 else {
-                    val = Math.abs(image[line][col] - image[line+1][col]);
+                    val = Math.abs(image[line][col] - image[line + 1][col]);
                 }
 
                 res[line][col] = val;
@@ -360,7 +360,7 @@ public class SeamCarving {
             for (int line = 0; line < height; line++) {
                 if (!list.contains(line * width + col)) {
                     if (finded) {
-                        result[line-1][col] = picture[line][col];
+                        result[line - 1][col] = picture[line][col];
                     } else {
                         result[line][col] = picture[line][col];
                     }

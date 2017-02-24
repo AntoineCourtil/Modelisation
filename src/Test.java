@@ -150,12 +150,15 @@ class Test {
     public static void main(String[] args) {
         //testGraph();
 
-        reduceWidth("bateau.pgm",300, false);
-        reduceHeight("bateau.pgm",200, false);
+        //reduceWidth("bateau.pgm",300, false);
+        //reduceHeight("bateau.pgm",200, false);
         //reduce("bateau.pgm", 50);
 
-        /*if (args.length < 2) {
-            System.out.println("usage : java -jar modelisation.jar <pictureName> <reduceyBy>");
+        if (args.length < 2) {
+            System.out.println("usage : java -jar modelisation.jar <pictureName> -options <reduceBy>\n" +
+                    "\toptions :\n" +
+                    "\t\t-width : reduire la largeur\n" +
+                    "\t\t-height : reduire la hauteur");
 
             System.out.println("List of picture :");
             System.out.println("  - ex1.pgm");
@@ -168,11 +171,19 @@ class Test {
         }
 
         if (args[0].equals("ex1.pgm") || args[0].equals("ex2.pgm") || args[0].equals("ex3.pgm") || args[0].equals("test.pgm") || args[0].equals("paris.pgm") || args[0].equals("bateau.pgm")) {
-            reduceWidth(args[0], Integer.parseInt(args[1]));
-        }
-        else{
+            if (args[1].equals("-width")) {
+                reduceWidth(args[0], Integer.parseInt(args[1]), false);
+
+            } else if (args[1].equals("-height")) {
+                reduceHeight(args[0], Integer.parseInt(args[1]), false);
+
+            } else {
+                System.err.println("Wrong inputs");
+            }
+
+        } else {
             System.err.println("Wrong inputs");
-        }*/
+        }
 
     }
 }

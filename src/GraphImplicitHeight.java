@@ -103,8 +103,8 @@ class GraphImplicitHeight implements Graph {
                     }
 
                     if (line == height - 1) { //bord bas
-                        edges.add(new Edge(v  - 1, v, interest[(v - 1) / width][(v - 1) % width]));
-                        edges.add(new Edge(v - width -1, v, interest[(v - width-1) / width][(v - width-1) % width]));
+                        edges.add(new Edge(v - 1, v, interest[(v - 1) / width][(v - 1) % width]));
+                        edges.add(new Edge(v - width - 1, v, interest[(v - width - 1) / width][(v - width - 1) % width]));
 
                     }
 
