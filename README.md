@@ -12,6 +12,12 @@
 Exécuter le .jar de la manière suivante :
 	java -jar modelisation.jar \<pictureName> -options \<reduceyBy>
 
+
+usage : java -jar modelisation.jar <pictureName> -options <reduceBy>
+	options :
+		-width : reduce width
+		-height : reduce height
+
 Liste des \<pictureName> :
   - ex1.pgm
   - ex2.pgm
