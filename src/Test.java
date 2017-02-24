@@ -155,27 +155,27 @@ class Test {
         //reduce("bateau.pgm", 50);
 
         if (args.length < 2) {
-            System.out.println("usage : java -jar modelisation.jar <pictureName> -options <reduceBy>\n" +
+            System.out.println("\nusage : java -jar modelisation.jar <pictureName> -options <reduceBy>\n" +
                     "\toptions :\n" +
-                    "\t\t-width : reduire la largeur\n" +
-                    "\t\t-height : reduire la hauteur");
+                    "\t\t-width : reduce width\n" +
+                    "\t\t-height : reduce height");
 
-            System.out.println("List of picture :");
+            System.out.println("\n\nList of picture :");
             System.out.println("  - ex1.pgm");
             System.out.println("  - ex2.pgm");
             System.out.println("  - ex3.pgm");
             System.out.println("  - test.pgm");
             System.out.println("  - paris.pgm");
-            System.out.println("  - bateau.pgm");
+            System.out.println("  - bateau.pgm\n");
             System.exit(0);
         }
 
         if (args[0].equals("ex1.pgm") || args[0].equals("ex2.pgm") || args[0].equals("ex3.pgm") || args[0].equals("test.pgm") || args[0].equals("paris.pgm") || args[0].equals("bateau.pgm")) {
             if (args[1].equals("-width")) {
-                reduceWidth(args[0], Integer.parseInt(args[1]), false);
+                reduceWidth(args[0], Integer.parseInt(args[2]), false);
 
             } else if (args[1].equals("-height")) {
-                reduceHeight(args[0], Integer.parseInt(args[1]), false);
+                reduceHeight(args[0], Integer.parseInt(args[2]), false);
 
             } else {
                 System.err.println("Wrong inputs");
