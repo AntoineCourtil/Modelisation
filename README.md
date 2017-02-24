@@ -1,11 +1,14 @@
 # Projet Modelisation
 
-# Rendu 1 :
+# Rendu 2 :
 
 
 #Membres du groupe :
   - COURTIL Antoine
 
+
+#Lien du github :
+  - https://github.com/AntoineCourtil/Modelisation
 
 #Utilisation :
 
